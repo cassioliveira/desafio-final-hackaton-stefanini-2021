@@ -2,6 +2,7 @@ import Professor from '../entities/professor.entity';
 import ProfessorRepository from '../repositories/professor.repository';
 import { FilterQuery } from '../utils/database/database';
 import Mensagem from '../utils/mensagem';
+import { TipoUsuario } from '../utils/tipo-usuario.enum';
 import { Validador } from '../utils/utils';
 
 export default class ProfessorController {
@@ -17,7 +18,7 @@ export default class ProfessorController {
 
   // #pegabandeira
   async listar(filtro: FilterQuery<Professor> = {}): Promise<Professor[]> {
-    return await ProfessorRepository.listar(filtro);
+    return await ProfessorRepository.listar({ tipo: { $eq: TipoUsuario.PROFESSOR } });
   }
 
   // #pegabandeira

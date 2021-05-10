@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import ProfessorController from '../controllers/professor.controller';
 import Professor from '../entities/professor.entity';
 import Mensagem from '../utils/mensagem';
+import { Validador } from '../utils/utils';
 
 const router = express.Router();
 
@@ -47,7 +48,8 @@ router.get('/professor/:id', async (req: Request, res: Response, next: NextFunct
 router.get('/professor', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const professores: Professor[] = await new ProfessorController().listar();
-    res.json(professores);
+    let listaDeProfessores = Validador.removerSenhaDaLista(professores);
+    res.json(listaDeProfessores);
   } catch (e) {
     next(e);
   }

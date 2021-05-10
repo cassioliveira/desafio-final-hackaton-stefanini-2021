@@ -2,6 +2,7 @@ import Aluno from '../entities/aluno.entity';
 import AlunoRepository from '../repositories/aluno.repository';
 import { FilterQuery } from '../utils/database/database';
 import Mensagem from '../utils/mensagem';
+import { TipoUsuario } from '../utils/tipo-usuario.enum';
 import { Validador } from '../utils/utils';
 
 export default class AlunoController {
@@ -16,7 +17,7 @@ export default class AlunoController {
 
   // #pegabandeira
   async listar(filtro: FilterQuery<Aluno> = {}): Promise<Aluno[]> {
-    return await AlunoRepository.listar(filtro);
+    return await AlunoRepository.listar({ tipo: { $eq: TipoUsuario.ALUNO } });
   }
 
   // #pegabandeira

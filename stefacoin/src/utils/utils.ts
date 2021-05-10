@@ -35,4 +35,12 @@ export const Validador = {
   criptografarSenha: (senha: string): string => {
     return bcrypt.hashSync(senha, 8);
   },
+
+  /** Responsável por remover o campo senha das consultas get */
+  removerSenhaDaLista: (lista) => {
+    return lista.filter(function (item) {
+      delete item.senha;
+      return lista;
+    });
+  }
 };
