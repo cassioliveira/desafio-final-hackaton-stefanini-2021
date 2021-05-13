@@ -6,14 +6,14 @@ import { Validador } from '../utils/utils';
 
 const router = express.Router();
 
-router.post('/aluno', async (req: Request, res: Response, next: NextFunction) => {
+/* router.post('/aluno', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const mensagem: Mensagem = await new AlunoController().incluir(req.body);
     res.json(mensagem);
   } catch (e) {
     next(e);
   }
-});
+}); */
 
 router.put('/aluno/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -39,6 +39,7 @@ router.get('/aluno/:id', async (req: Request, res: Response, next: NextFunction)
   try {
     const { id } = req.params;
     const aluno: Aluno = await new AlunoController().obterPorId(Number(id));
+    Validador.removerSenhaDoUsuario(aluno)
     res.json(aluno);
   } catch (e) {
     next(e);
@@ -48,8 +49,8 @@ router.get('/aluno/:id', async (req: Request, res: Response, next: NextFunction)
 router.get('/aluno', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const alunos: Aluno[] = await new AlunoController().listar();
-    let listaDeAlunos = Validador.removerSenhaDaLista(alunos);
-    res.json(listaDeAlunos);
+    Validador.removerSenhaDaLista(alunos);
+    res.json(alunos);
   } catch (e) {
     next(e);
   }

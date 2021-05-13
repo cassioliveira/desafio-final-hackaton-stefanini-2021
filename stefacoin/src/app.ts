@@ -6,6 +6,7 @@ import AulaRouter from './routes/aula.router';
 import AuthRouter from './routes/auth.router';
 import CursoRouter from './routes/curso.router';
 import ProfessorRouter from './routes/professor.router';
+import CadastroRouter from './routes/cadastro.router';
 import Database from './utils/database/database';
 import Exception from './utils/exceptions/exception';
 import auth from './utils/middlewares/auth.middleware';
@@ -48,10 +49,10 @@ class App {
 
   // #pegabandeira
   private publicRoutes() {
-    this.app.use('/stefanini', AuthRouter);
+    this.app.use('/stefanini', AuthRouter, CadastroRouter);
   }
 
-  // #pegabandeira - OK
+  // #pegabandeira 
   private privateRoutes() {
     this.authMiddleware();
     this.app.use('/stefanini', AulaRouter, AlunoRouter, ProfessorRouter, CursoRouter);

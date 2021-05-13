@@ -6,14 +6,14 @@ import { Validador } from '../utils/utils';
 
 const router = express.Router();
 
-router.post('/professor', async (req: Request, res: Response, next: NextFunction) => {
+/* router.post('/professor', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const mensagem: Mensagem = await new ProfessorController().incluir(req.body);
     res.json(mensagem);
   } catch (e) {
     next(e);
   }
-});
+}); */
 
 router.put('/professor/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -38,7 +38,8 @@ router.delete('/professor/:id', async (req: Request, res: Response, next: NextFu
 router.get('/professor/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
-    const professor: Professor = await new ProfessorController().obterPorId(Number(id));
+    let professor: Professor = await new ProfessorController().obterPorId(Number(id));
+    Validador.removerSenhaDoUsuario(professor)
     res.json(professor);
   } catch (e) {
     next(e);
@@ -48,8 +49,8 @@ router.get('/professor/:id', async (req: Request, res: Response, next: NextFunct
 router.get('/professor', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const professores: Professor[] = await new ProfessorController().listar();
-    let listaDeProfessores = Validador.removerSenhaDaLista(professores);
-    res.json(listaDeProfessores);
+    Validador.removerSenhaDaLista(professores);
+    res.json(professores);
   } catch (e) {
     next(e);
   }

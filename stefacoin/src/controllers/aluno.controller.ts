@@ -1,6 +1,7 @@
 import Aluno from '../entities/aluno.entity';
 import AlunoRepository from '../repositories/aluno.repository';
 import { FilterQuery } from '../utils/database/database';
+import BusinessException from '../utils/exceptions/business.exception';
 import Mensagem from '../utils/mensagem';
 import { TipoUsuario } from '../utils/tipo-usuario.enum';
 import { Validador } from '../utils/utils';
@@ -24,6 +25,13 @@ export default class AlunoController {
   async incluir(aluno: Aluno) {
     const { nome, formacao, idade, email, senha } = aluno;
     Validador.validarParametros([{ nome }, { formacao }, { idade }, { email }, { senha }]);
+    aluno.tipo = 2;
+
+    const emailCadastrado = await AlunoRepository.listar({ email: { $eq: email } });
+    if (emailCadastrado.length) {
+      throw new BusinessException('Email já cadastrado!')
+    }
+
     const id = await AlunoRepository.incluir(aluno);
     return new Mensagem('Aluno incluido com sucesso!', {
       id,
@@ -31,7 +39,14 @@ export default class AlunoController {
   }
 
   async alterar(id: number, aluno: Aluno) {
-    Validador.validarParametros([{ id }]);
+    const { nome, senha } = aluno;
+
+    Validador.validarParametros([{ id }, { nome }, { senha }]);
+
+    if (aluno.email != undefined || aluno.email != '') {
+      throw new BusinessException('Alteração do email não permitida!')
+    }
+
     await AlunoRepository.alterar({ id }, aluno);
     return new Mensagem('Aluno alterado com sucesso!', {
       id,
@@ -40,6 +55,11 @@ export default class AlunoController {
 
   async excluir(id: number) {
     Validador.validarParametros([{ id }]);
+    // VER PORQUE NÃO ESTÁ FUNCIONANDOOOOOOOO
+    // if(!TipoUsuario.PROFESSOR){
+    //   throw new UnauthorizedException('Você não tem permissão para excluir este cadastro!') 
+    // }
+
     await AlunoRepository.excluir({ id });
     return new Mensagem('Aluno excluido com sucesso!', {
       id,

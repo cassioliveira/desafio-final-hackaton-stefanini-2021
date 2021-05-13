@@ -11,6 +11,7 @@ class ProfessorRepository extends Repository<Professor> {
   }
 
   async incluir(professor: Professor) {
+    professor.email = await Validador.validarEmail(professor.email);
     professor.senha = Validador.criptografarSenha(professor.senha);
     professor.tipo = TipoUsuario.PROFESSOR;
     return super.incluir(professor);
