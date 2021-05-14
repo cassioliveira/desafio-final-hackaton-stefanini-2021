@@ -1,2 +1,5 @@
-export interface Professor {
+import { Usuario } from "./usuario";
+
+export interface Professor extends Usuario {
+    
 }

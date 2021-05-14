@@ -1,4 +1,6 @@
+import { ProfessorService } from './../../../services/professor.service';
 import { Component, OnInit } from '@angular/core';
+import { Professor } from 'src/app/models/professor';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  professor: any;
+  professores: Array<Professor> = [];
+
+  constructor(private professorService: ProfessorService) { }
 
   ngOnInit(): void {
+    this.professorService.listar().subscribe(professor =>{
+      console.log(professor);
+      this.professor = professor;
+    });
   }
 
+}
+
+function logout() {
+  this.authService.logout();
 }

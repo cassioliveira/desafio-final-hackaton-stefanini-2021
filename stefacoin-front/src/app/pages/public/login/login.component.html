@@ -1,4 +1,30 @@
-<div class="box">
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="http://cassioliveira.com.br/img/stefanini-logo.png" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <div class="formulario">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <input type="text" id="login" class="fadeIn second" name="login" placeholder="E-mail" formControlName="email">
+        <input type="text" onchange="formatPassword()" id="password" class="fadeIn third" name="login" placeholder="Senha" formControlName="senha">
+        <input type="submit" class="fadeIn fourth" value="Log In">
+      </form>
+    </div>
+
+    <div id="formFooter">
+      <a href="/nova-conta" class="underlineHover">Criar Conta</a>
+      <!--  <a class="underlineHover" href="#">Forgot Password?</a> -->
+    </div>
+
+  </div>
+</div>
+
+<!-- <div class="box">
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="mb-3">
       <label for="tx-email" class="form-label">Email</label>
@@ -11,4 +37,4 @@
     <button type="submit" class="btn btn-primary mr-5">Login</button>
     <a href="/nova-conta" class="btn btn-outline-primary">Criar Conta</a>
   </form>
-</div>
+</div> -->

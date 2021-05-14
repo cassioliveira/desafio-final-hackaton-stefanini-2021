@@ -1,2 +1,3 @@
-export interface Aluno {
+import { Usuario } from './usuario';
+export interface Aluno extends Usuario{
 }

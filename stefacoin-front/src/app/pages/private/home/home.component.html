@@ -1,3 +1,31 @@
+<h1>Usuarios cadastrados</h1>
 <div>
-  <nav></nav>
+    <div class="botao-cadastro">
+        <input type="button" class="btn btn-primary" value="Cadastrar Professor">
+    </div>
+    <div class="botao-cadastro">
+        <input type="button" class="btn btn-primary" value="Cadastrar Aluno">
+    </div>
 </div>
+<table class="table table-striped">
+    <thead>
+        <tr align="center">
+            <th scope="col">ID</th>
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Excluir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let attributo of professor">
+            <td align="center">{{atributo.id}}</td>
+            <td>{{atributo.nome}}</td>
+            <td>{{atributo.email}}</td>
+            <td align="center">{{atributo.tipo}}</td>
+            <td align="center"><i class="bi bi-pencil-fill"></i></td>
+            <td align="center"><i class="bi bi-trash-fill"></i></td>
+        </tr>
+    </tbody>
+</table>
