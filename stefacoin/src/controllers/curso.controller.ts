@@ -1,6 +1,7 @@
 import Curso from '../entities/curso.entity';
 import CursoRepository from '../repositories/curso.repository';
 import { FilterQuery } from '../utils/database/database';
+import BusinessException from '../utils/exceptions/business.exception';
 import Mensagem from '../utils/mensagem';
 import { Validador } from '../utils/utils';
 
@@ -21,6 +22,12 @@ export default class CursoController {
   async incluir(curso: Curso) {
     const { nome, descricao, aulas, idProfessor } = curso;
     Validador.validarParametros([{ nome }, { descricao }, { aulas }, { idProfessor }]);
+
+    /** Compara o nome informado e verifica se o mesmo já existe em algum cadastro do banco */
+    const nomeDoCurso = await CursoRepository.listar({ nome: { $eq: nome } });
+    if (nomeDoCurso.length) {
+      throw new BusinessException('Já existe um curso com este nome!')
+    }
 
     const id = await CursoRepository.incluir(curso);
 

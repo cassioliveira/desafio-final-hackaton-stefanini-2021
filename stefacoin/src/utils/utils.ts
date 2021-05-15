@@ -1,11 +1,9 @@
 import bcrypt from 'bcryptjs';
+import Usuario from '../entities/usuario.entity';
+import usuarioRepository from '../repositories/usuario.repository';
 import BusinessException from '../utils/exceptions/business.exception';
 import UnauthorizedException from '../utils/exceptions/unauthorized.exception';
-import Usuario from '../entities/usuario.entity';
-import Repository from '../repositories/repository';
-import professorRepository from '../repositories/professor.repository';
-import Professor from '../entities/professor.entity';
-import usuarioRepository from '../repositories/usuario.repository';
+import UnexpectedException from './exceptions/unexpected.exception';
 
 export const Validador = {
   validarParametros: (parametros: any[]) => {
@@ -55,6 +53,7 @@ export const Validador = {
   },
 
 
+  /** Verifica se o formato de e-mail informado é válido */
   validarEmail: async (email: string) => {
 
     //Regex baseada na especificação do W3C: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
@@ -66,6 +65,15 @@ export const Validador = {
       throw new BusinessException('E-mail inválido!');
     } else {
       return email;
+    }
+  },
+
+  /** Verifica se o nome informado cotém apenas letras sem acento, espaços e caracteres alfabéticos acentuados, através de uma REGEX*/
+  nomeValido: (nome: string) => {
+    let regexNome = /^[A-zÀ-ú ]*$/
+
+    if (!regexNome.test(nome)) {
+      throw new UnexpectedException('Você informou caracteres inválidos no nome!')
     }
   }
 };

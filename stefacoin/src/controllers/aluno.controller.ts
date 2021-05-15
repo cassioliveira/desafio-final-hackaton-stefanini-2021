@@ -1,4 +1,5 @@
 import Aluno from '../entities/aluno.entity';
+import alunoRepository from '../repositories/aluno.repository';
 import AlunoRepository from '../repositories/aluno.repository';
 import { FilterQuery } from '../utils/database/database';
 import BusinessException from '../utils/exceptions/business.exception';
@@ -27,6 +28,7 @@ export default class AlunoController {
     Validador.validarParametros([{ nome }, { formacao }, { idade }, { email }, { senha }]);
     aluno.tipo = 2;
 
+    /** Compara o e-mail informado e verifica se o mesmo já existe em algum cadastro do banco */
     const emailCadastrado = await AlunoRepository.listar({ email: { $eq: email } });
     if (emailCadastrado.length) {
       throw new BusinessException('Email já cadastrado!')
@@ -55,10 +57,6 @@ export default class AlunoController {
 
   async excluir(id: number) {
     Validador.validarParametros([{ id }]);
-    // VER PORQUE NÃO ESTÁ FUNCIONANDOOOOOOOO
-    // if(!TipoUsuario.PROFESSOR){
-    //   throw new UnauthorizedException('Você não tem permissão para excluir este cadastro!') 
-    // }
 
     await AlunoRepository.excluir({ id });
     return new Mensagem('Aluno excluido com sucesso!', {
